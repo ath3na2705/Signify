@@ -7,25 +7,16 @@
     <title>Welcome to Signify</title>
   </head>
 <body>
-    <h1>Hello</h1>
-    <div id="container">
-        <video autoplay="true" id="videoElement">
-        
-        </video>
+    <div class="logo-bar">
+        <div class="logo-bar___column">
+            <img src="images/signify_logo.png"
+                class="logo-bar___column___logo"
+            />
+        </div>
+        <div class="logo-bar___column">
+            <h1>Translation Machine</h1>
+        </div>
     </div>
-    <script>
-        var video = document.querySelector("#videoElement");
-
-        if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true })
-            then(function (stream) {
-                video.srcObject = stream;
-            })
-            .catch(function (err0r) {
-                console.log("Something went wrong!");
-            });
-        }
-    </script>
 
     <script
       src="https://kit.fontawesome.com/ca7f97d49d.js"

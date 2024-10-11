@@ -1,13 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
+
 @import "reset.css";
 
-#container {
-	margin: 0px auto;
-	width: 500px;
-	height: 375px;
-	border: 10px #333 solid;
+body {
+    background-color: #073763;
 }
-#videoElement {
-	width: 500px;
-	height: 375px;
-	background-color: #666;
+
+.logo-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.logo-bar___column:last-child {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+.logo-bar___column h1 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 3rem;
+    color: #ffffff;
+    text-align: center;
+}
+
+.logo-bar___column___logo {
+    width: 100px;
 }
