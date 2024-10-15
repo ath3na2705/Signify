@@ -1,0 +1,27 @@
+body {
+    background-color: #073763;
+}
+
+.logo-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.logo-bar___column:last-child {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+.logo-bar___column h1 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 3rem;
+    color: #ffffff;
+    text-align: center;
+}
+
+.logo-bar___column___logo {
+    width: 100px;
+}
