@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Signify</title>
+</head>
+<body>
+    <div class="logo-bar">
+        <div class="logo-bar___column">
+            <img src="images/signify_logo.png" class="logo-bar___column___logo" />
+        </div>
+        <div class="logo-bar___column">
+            <h1>Translation Machine</h1>
+        </div>
+    </div>
+
+    <div class="translate-container">
+        <div class="translate-container___column">
+            <div class="translate-container___column___label">
+                <label for="language-dropdown">Select Language:</label>
+            </div>
+            <div class="translate-container___column___dropdown-container">
+                <select id="language-dropdown" class="translate-container___column___dropdown">
+                    <option value="asl">American Sign Language</option>
+                    <option value="ksl">Korean Sign Language</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Webcam Video -->
+    <div class="webcam-container">
+        <video id="webcam" autoplay playsinline width="640" height="480"></video>
+        <button id="capture">Capture Frame & Predict</button>
+    </div>
+
+    <script>
+        const video = document.getElementById('webcam');
+        const captureBtn = document.getElementById('capture');
+
+        // Access the webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Error accessing webcam: " + err);
+            });
+
+        // Function to capture and send the frame
+        captureBtn.addEventListener('click', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert canvas to Blob and send to Flask backend
+            canvas.toBlob(blob => {
+                const formData = new FormData();
+                formData.append('video', blob, 'frame.png');
+
+                fetch('/process-video', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Predicted Class: " + data.predicted_class);
+                })
+                .catch(err => console.error('Error:', err));
+            }, 'image/png');
+        });
+    </script>
+</body>
+</html>

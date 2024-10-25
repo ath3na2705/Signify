@@ -15,8 +15,6 @@ body {
 
 .logo-bar___column {
     flex: 1;
-    display: flex;
-    justify-content: center;
     text-align: left;
 }
 
