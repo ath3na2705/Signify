@@ -2,19 +2,18 @@
 <html>
 <head>
     <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome to Signify</title>
-  </head>
+</head>
 <body>
     <div class="logo-bar">
         <div class="logo-bar___column">
-            <img src="images/signify_logo.png"
-                class="logo-bar___column___logo"
-            />
+            <img src="images/signify_logo.png" class="logo-bar___column___logo" />
         </div>
         <div class="logo-bar___column">
-            <h1>Trann Machine</h1>
+            <h1>Signify</h1>
         </div>
     </div>
 
@@ -27,11 +26,29 @@
                 <select id="language-dropdown" class="translate-container___column___dropdown">
                     <option value="asl">American Sign Language</option>
                     <option value="ksl">Korean Sign Language</option>
+                </select>
+            </div>
+        </div>
     </div>
 
-    <script
-      src="https://kit.fontawesome.com/ca7f97d49d.js"
-      crossorigin="anonymous"
-    ></script>
+    <div class="webcam-container">
+        <div class="webcam-container___column">
+            <h2>Webcam</h2>
+            <div class="webcam">
+                <video id="webcam" autoplay></video>
+            </div>
+            <div class="button-container">
+                <button id="start-button" class="button">Start</button>
+                <button id="start-auto-button" class="button">Start Auto</button>
+            </div>
+        </div>
+        <div class="translation-output-container">
+            <h2>Korean</h2>
+            <div id="translation-output" class="translation-output"></div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/ca7f97d49d.js" crossorigin="anonymous"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
