@@ -51,20 +51,55 @@
     <script>
         const startButton = document.getElementById('start-button');
         const video = document.getElementById('videoElement');
+        const translationOutput = document.getElementById('translation-output');
 
-        startButton.addEventListener('click', () => {
+        // Access webcam and display the feed
+        async function startWebcam() {
             if (navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then((stream) => {
-                        video.srcObject = stream;
-                        video.play();
-                    })
-                    .catch((error) => {
-                        console.error("Error accessing webcam:", error);
-                    });
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    video.srcObject = stream;
+                    video.play();
+                } catch (error) {
+                    console.error("Error accessing webcam:", error);
+                }
             } else {
                 alert("Webcam not supported in this browser.");
             }
+        }
+
+        // Capture image, encode as base64, and send to FastAPI
+        async function captureAndSendImage() {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+
+            const imageDataUrl = canvas.toDataURL('image/jpeg');
+            const base64Image = imageDataUrl.split(',')[1]; // Strip out "data:image/jpeg;base64,"
+
+            try {
+                const response = await fetch('http://localhost:8000/api/translate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: base64Image })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    translationOutput.innerText = `Predicted Class: ${result.predicted_class}`;
+                } else {
+                    translationOutput.innerText = `Error: ${result.error}`;
+                }
+            } catch (error) {
+                console.error("Error in prediction request:", error);
+                translationOutput.innerText = "Prediction request failed.";
+            }
+        }
+
+        startButton.addEventListener('click', () => {
+            startWebcam();
+            setInterval(captureAndSendImage, 3000); // Send an image every 3 seconds
         });
     </script>
 

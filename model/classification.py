@@ -1,6 +1,4 @@
 import tensorflow as tf
-
-
 import sys
 
 sys.path.append(r"c:\users\a0105\appdata\local\programs\python\python313\lib\site-packages")
