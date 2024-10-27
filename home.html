@@ -9,6 +9,9 @@
 </head>
 <body>
     <div class="logo-bar">
+        <div class="settings">
+            <i class="fa-solid fa-bars"></i>
+        </div>
         <div class="logo-bar___column">
             <img src="images/signify_logo.png" class="logo-bar___column___logo" />
         </div>
@@ -45,6 +48,51 @@
         <div class="translation-output-container">
             <h2>Korean</h2>
             <div id="translation-output" class="translation-output"></div>
+        </div>
+    </div>
+
+
+    
+    <div id="mobile">
+        <div class="mobile___logo-bar">
+            <div class="mobile___logo-bar___column">
+                <img src="images/signify_logo.png" class="logo-bar___column___logo" />
+            </div>
+            <div class="mobile___logo-bar___column">
+                <center>
+                    <h1>Signify - Translation Machine</h1>
+                </center>
+            </div>
+        </div>
+    
+        <div class="mobile___translate-container">
+            <div class="mobile___translate-container___column">
+                <div class="mobile___translate-container___column___label">
+                    <label for="language-dropdown">Select Language:</label>
+                </div>
+                <div class="mobile___translate-container___column___dropdown-container">
+                    <select id="language-dropdown" class="mobile___translate-container___column___dropdown">
+                        <option value="asl">American Sign Language</option>
+                        <option value="ksl">Korean Sign Language</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    
+        <div class="mobile___webcam-container">
+            <div class="mobile___webcam-container___column">
+                <h2>Webcam</h2>
+                <div class="mobile___webcam">
+                    <video id="webcam" autoplay></video>
+                </div>
+                <div class="mobile___button-container">
+                    <button id="start-button" class="button">Start</button>
+                </div>
+            </div>
+            <div class="mobile___translation-output-container">
+                <h2>Korean</h2>
+                <div id="translation-output" class="mobile___translation-output"></div>
+            </div>
         </div>
     </div>
 
