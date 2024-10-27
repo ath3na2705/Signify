@@ -19,8 +19,4 @@ We aim to develop an efficient system to facilitate communication between sign l
 3. Real-time gesture processing on mobile devices.
 
 ## Technologies Used
-Mobile Frameworks: React, Flutter, or Xcode
-AI/ML Tools: TensorFlow, Keras, PyTorch
-Backend: Python Django
-Text-to-Speech: gTTS, playsound
-Speech-to-Text: SpeechRecognition
+AI Tools: TensorFlow
