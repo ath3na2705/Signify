@@ -85,6 +85,14 @@ body {
     object-fit: cover;
 }
 
+video {
+    transform: scaleX(-1); /* Flip the video horizontally */
+    /* Other styles to adjust video display */
+    width: 100%; /* Set width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
 .button-container {
     text-align: center;
     margin-top: 10px;

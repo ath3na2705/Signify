@@ -6,6 +6,7 @@ from pydantic import BaseModel
 import base64
 import numpy as np
 import cv2
+import logging
 
 from utils import classify_image  # Import from utils
 
@@ -22,6 +23,9 @@ app.add_middleware(
 # Serve static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+
 class ImageData(BaseModel):
     image: str
 
@@ -33,15 +37,31 @@ async def read_root():
 @app.post("/api/translate")
 async def translate(image_data: ImageData):
     try:
+        print("here")
+
         encoded = image_data.image
-        image = np.frombuffer(base64.b64decode(encoded), dtype=np.uint8)
-        image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        logging.info(f"Received encoded image data length: {len(encoded)}")
+
+        # Decode base64 to an image
+        try:
+            image = np.frombuffer(base64.b64decode(encoded), dtype=np.uint8)
+            image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+            
+        except Exception as decode_error:
+            raise HTTPException(status_code=400, detail="Invalid base64 image data")
+        # Check if image decoding was successful
+        if image is None:
+            raise HTTPException(status_code=400, detail="Image decoding failed")
+
+        # Classify the image using the function from utils.py
+        predicted_class = classify_image(image)
         
-        predicted_class, confidence = classify_image(image)
-        
-        return JSONResponse(content={"predicted_class": int(predicted_class), "confidence": confidence})
+        return JSONResponse(content={"predicted_class": predicted_class, "confidence": 100})
+    
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        # Log the error for debugging purposes
+        logging.error(f"Error in /api/translate: {str(e)}")
+        raise HTTPException(status_code=400, detail="An error occurred during translation")
 
 if __name__ == "__main__":
     import uvicorn

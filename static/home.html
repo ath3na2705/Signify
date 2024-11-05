@@ -5,6 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Signify</title>
+    <style>
+        video {
+            transform: scaleX(-1); /* Flip the video horizontally */
+            width: 100%; /* Set width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
 </head>
 <body>
     <div class="logo-bar">
@@ -98,7 +105,7 @@
 
         startButton.addEventListener('click', () => {
             startWebcam();
-            setInterval(captureAndSendImage, 3000); // Send an image every 3 seconds
+            setInterval(captureAndSendImage, 500); // Send an image every 3 seconds
         });
     </script>
 
