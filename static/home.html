@@ -4,7 +4,106 @@
     <link rel="stylesheet" href="static/css/styles.css"/>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home - Signify</title>
+    <title>Signify</title>
+    <style>
+        video {
+            transform: scaleX(-1); /* Flip the video horizontally */
+            width: 100%; /* Set width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        /* Spinner for loading translation */
+        .spinner {
+            border: 4px solid transparent;
+            border-top: 4px solid #f3f3f3;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Hamburger and X styling */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 4px;
+            background-color: #fff; /* White bars */
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Side panel */
+        .side-panel {
+            width: 250px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            background-color: #4a90e2; /* Bluish color */
+            transition: left 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .side-panel-open {
+            left: 0;
+        }
+
+        .side-panel-content a {
+            display: block;
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .side-panel-content a:hover {
+            background-color: #357ab7; /* Darker blue on hover */
+        }
+
+        /* Bottom close button styling */
+        .side-panel-close-btn {
+            background-color: transparent;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 24px; /* Icon size */
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            margin-top: auto; /* Push the button to the bottom */
+        }
+
+        .side-panel-close-btn:hover {
+            background-color: #357ab7; /* Darker blue on hover */
+        }
+    </style>
 </head>
 <body>
     <div class="logo-bar">
@@ -16,22 +115,21 @@
             </div>
         </div>
         <div class="logo-bar___column">
-            <a href="home.html">
-                <img src="static/images/signify_logo.png" class="logo-bar___column___logo" alt="Signify Logo"/>
-            </a>
+            <img src="static/images/logo.png" class="logo-bar___column___logo" alt="Signify Logo"/>
         </div>
         <div class="logo-bar___title">
             <h1>Signify - Translation Machine</h1>
         </div>
     </div>
-
+    
     <div id="side-panel" class="side-panel">
         <div class="side-panel-content">
-            <a href="home.html">Home</a>
-            <a href="about.html">About</a>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#learn">Learn</a>
         </div>
         <button class="side-panel-close-btn" onclick="toggleSidePanel()">
-            <i class="fa-solid fa-x"></i>
+            <i class="fa-solid fa-x"></i> <!-- Close icon -->
         </button>
     </div>
 
@@ -49,24 +147,31 @@
             </div>
             <div class="button-container">
                 <button id="start-button" class="button">Start</button>
+                <button id="stop-button" class="button">Stop</button>
             </div>
         </div>
         <div class="translation-output-container">
             <h2>English</h2>
-            <div id="translation-output" class="translation-output"></div>
+            <div id="translation-output" class="translation-output">
+                <!-- Display loading spinner when translating -->
+                <div id="spinner" class="spinner" style="display: none;"></div>
+            </div>
         </div>
     </div>
 
     <script>
         const startButton = document.getElementById('start-button');
+        const stopButton = document.getElementById('stop-button');
         const video = document.getElementById('videoElement');
         const translationOutput = document.getElementById('translation-output');
+        const spinner = document.getElementById('spinner');
+        let stream;
 
         // Access webcam and display the feed
         async function startWebcam() {
             if (navigator.mediaDevices.getUserMedia) {
                 try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true });
                     video.srcObject = stream;
                     video.play();
                 } catch (error) {
@@ -75,6 +180,15 @@
             } else {
                 alert("Webcam not supported in this browser.");
             }
+        }
+
+        // Stop the webcam
+        function stopWebcam() {
+            if (stream) {
+                let tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+            video.srcObject = null;
         }
 
         // Capture image, encode as base64, and send to FastAPI
@@ -88,6 +202,7 @@
             const base64Image = imageDataUrl.split(',')[1]; // Strip out "data:image/jpeg;base64,"
 
             try {
+                spinner.style.display = "inline-block"; // Show spinner during request
                 const response = await fetch('http://localhost:8000/api/translate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -95,6 +210,7 @@
                 });
 
                 const result = await response.json();
+                spinner.style.display = "none"; // Hide spinner when done
                 if (response.ok) {
                     translationOutput.innerText = `Predicted Class: ${result.predicted_class}`;
                 } else {
@@ -103,19 +219,30 @@
             } catch (error) {
                 console.error("Error in prediction request:", error);
                 translationOutput.innerText = "Prediction request failed.";
+                spinner.style.display = "none";
             }
         }
 
         startButton.addEventListener('click', () => {
             startWebcam();
-            setInterval(captureAndSendImage, 500); // Send an image every 3 seconds
+            setInterval(captureAndSendImage, 3000); // Send an image every 3 seconds
         });
-    </script>
 
-    <script>
+        stopButton.addEventListener('click', () => {
+            stopWebcam();
+        });
+
         function toggleSidePanel() {
             document.getElementById("side-panel").classList.toggle("side-panel-open");
-            document.querySelector(".hamburger").classList.toggle("open");
+            const hamburger = document.querySelector(".hamburger");
+            hamburger.classList.toggle("open");
+            if (hamburger.classList.contains("open")) {
+                // Show X icon when side panel is open
+                hamburger.innerHTML = '<i class="fa-solid fa-x"></i>';
+            } else {
+                // Revert to hamburger when side panel is closed
+                hamburger.innerHTML = '<span></span><span></span><span></span>';
+            }
         }
     </script>
 
