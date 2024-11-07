@@ -70,37 +70,23 @@ body {
     margin: 5px 0;
 }
 
-.translate-container {
+.about-container {
     padding: 20px;
 }
 
-.translate-container___column {
-    display: flex;
-    flex-direction: column;
+.about-container h1 {
+    color: #4a90e2;
 }
 
-.webcam-container {
-    padding: 20px;
+.features-list {
+    list-style: none;
+    padding-left: 0;
 }
 
-.button-container {
-    margin-top: 10px;
+.features-list li {
+    margin-bottom: 10px;
 }
 
-.button {
-    padding: 10px;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-}
-
-.translation-output-container {
-    padding: 20px;
-    background-color: white;
+.technologies-used {
     margin-top: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

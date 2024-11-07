@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="static/css/styles.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - Signify</title>
+</head>
+<body>
+    <div class="logo-bar">
+        <div class="settings" onclick="toggleSidePanel()">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="logo-bar___column">
+            <a href="home.html">
+                <img src="static/images/logo.png" class="logo-bar___column___logo" alt="Signify Logo"/>
+            </a>
+        </div>
+        <div class="logo-bar___title">
+            <h1>Signify - Translation Machine</h1>
+        </div>
+    </div>
+
+    <div id="side-panel" class="side-panel">
+        <div class="side-panel-content">
+            <a href="home.html">Home</a>
+            <a href="about.html">About</a>
+        </div>
+        <button class="side-panel-close-btn" onclick="toggleSidePanel()">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+
+    <div class="about-container">
+        <h1>Project Signify</h1>
+        <p>Project Signify is an innovative mobile application designed to translate Korean Sign Language (KSL) and American Sign Language (ASL) into speech and text. The app uses a CNN-AI-based system to recognize hand gestures and facilitates communication between sign language users and non-sign language users.</p>
+
+        <h2>Overview</h2>
+        <p>Project Signify aims to:</p>
+        <ul class="features-list">
+            <li>Raise awareness of sign language and hearing disabilities.</li>
+            <li>Bridge the communication gap between people with and without hearing disabilities.</li>
+            <li>Enhance the representation of minority languages, specifically Korean Sign Language (KSL).</li>
+        </ul>
+
+        <h2>Key Features</h2>
+        <ul class="features-list">
+            <li><strong>Real-time Sign Language Recognition:</strong> Converts KSL and ASL gestures to text or speech.</li>
+            <li><strong>AI-Powered Translation:</strong> Leverages CNN models to accurately recognize hand gestures.</li>
+            <li><strong>Multilingual Support:</strong> Facilitates both KSL and ASL.</li>
+        </ul>
+
+        <h2>Problem Statement</h2>
+        <p>We aim to develop an efficient system to facilitate communication between sign language users and non-sign language users, tackling challenges like:</p>
+        <ul class="features-list">
+            <li>Hand gesture accuracy in different environments.</li>
+            <li>Limited high-quality KSL and ASL datasets.</li>
+            <li>Real-time gesture processing on mobile devices.</li>
+        </ul>
+
+        <h2>Technologies Used</h2>
+        <div class="technologies-used">
+            <p><strong>AI Tools:</strong> TensorFlow</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidePanel() {
+            document.getElementById("side-panel").classList.toggle("side-panel-open");
+            document.querySelector(".hamburger").classList.toggle("open");
+        }
+    </script>
+
+    <script src="https://kit.fontawesome.com/ca7f97d49d.js" crossorigin="anonymous"></script>
+</body>
+</html>

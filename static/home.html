@@ -4,37 +4,40 @@
     <link rel="stylesheet" href="static/css/styles.css"/>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Signify</title>
-    <style>
-        video {
-            transform: scaleX(-1); /* Flip the video horizontally */
-            width: 100%; /* Set width as needed */
-            height: auto; /* Maintain aspect ratio */
-        }
-    </style>
+    <title>Home - Signify</title>
 </head>
 <body>
     <div class="logo-bar">
-        <div class="settings">
-            <i class="fa-solid fa-bars"></i>
+        <div class="settings" onclick="toggleSidePanel()">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
         <div class="logo-bar___column">
-            <img src="static/images/signify_logo.png" class="logo-bar___column___logo" alt="Signify Logo"/>
+            <a href="home.html">
+                <img src="static/images/signify_logo.png" class="logo-bar___column___logo" alt="Signify Logo"/>
+            </a>
         </div>
-        <div class="logo-bar___column">
-            <center>
-                <h1>Signify - Translation Machine</h1>
-            </center>
+        <div class="logo-bar___title">
+            <h1>Signify - Translation Machine</h1>
         </div>
+    </div>
+
+    <div id="side-panel" class="side-panel">
+        <div class="side-panel-content">
+            <a href="home.html">Home</a>
+            <a href="about.html">About</a>
+        </div>
+        <button class="side-panel-close-btn" onclick="toggleSidePanel()">
+            <i class="fa-solid fa-x"></i>
+        </button>
     </div>
 
     <div class="translate-container">
         <div class="translate-container___column">
-            <label for="language-dropdown">Select Language:</label>
-            <select id="language-dropdown" class="translate-container___column___dropdown">
-                <option value="asl">American Sign Language</option>
-                <option value="ksl">Korean Sign Language</option>
-            </select>
+            <label for="language-dropdown">American Sign Language</label>
         </div>
     </div>
 
@@ -49,7 +52,7 @@
             </div>
         </div>
         <div class="translation-output-container">
-            <h2>Korean</h2>
+            <h2>English</h2>
             <div id="translation-output" class="translation-output"></div>
         </div>
     </div>
@@ -107,6 +110,13 @@
             startWebcam();
             setInterval(captureAndSendImage, 500); // Send an image every 3 seconds
         });
+    </script>
+
+    <script>
+        function toggleSidePanel() {
+            document.getElementById("side-panel").classList.toggle("side-panel-open");
+            document.querySelector(".hamburger").classList.toggle("open");
+        }
     </script>
 
     <script src="https://kit.fontawesome.com/ca7f97d49d.js" crossorigin="anonymous"></script>
